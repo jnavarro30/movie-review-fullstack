@@ -1,20 +1,19 @@
 import ReviewsDAO from "../dao/reviewsDAO.js";
 
 export default class ReviewsController {
-  static async apiPostReview(req, res, next) {
+  static async apiPostReview(req, res) {
     try {
       const movieId = parseInt(req.body.movieId);
       const review = req.body.review;
       const user = req.body.user;
-      console.log("movieid", movieId);
-      const reviewResponse = await ReviewsDAO.addReview(movieId, user, review);
+      await ReviewsDAO.addReview(movieId, user, review);
       res.json({ status: "success" });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
   }
 
-  static async apiGetReview(req, res, next) {
+  static async apiGetReview(req, res) {
     try {
       let id = req.params.id || {};
       let review = await ReviewsDAO.getReview(id);
@@ -29,7 +28,7 @@ export default class ReviewsController {
     }
   }
 
-  static async apiUpdateReview(req, res, next) {
+  static async apiUpdateReview(req, res) {
     try {
       const reviewId = req.params.id;
       const review = req.body.review;
@@ -56,18 +55,18 @@ export default class ReviewsController {
     }
   }
 
-  static async apiDeleteReview(req, res, next) {
+  static async apiDeleteReview(req, res) {
     try {
       const reviewId = req.params.id;
       console.log(reviewId, "deletion func ran");
-      const reviewResponse = await ReviewsDAO.deleteReview(reviewId);
+      await ReviewsDAO.deleteReview(reviewId);
       res.json({ status: "success" });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
   }
 
-  static async apiGetReviews(req, res, next) {
+  static async apiGetReviews(req, res) {
     try {
       let id = req.params.id || {};
       let reviews = await ReviewsDAO.getReviewsByMovieId(id);
