@@ -40,10 +40,14 @@ export default class ReviewsDAO {
   }
 
   static async updateReview(reviewId, user, review) {
+    const updatedProps = {};
+    if (user) updatedProps.user = user;
+    if (review) updatedProps.review = review;
+
     try {
       const updateResponse = await reviews.updateOne(
         { _id: new ObjectId(reviewId) },
-        { $set: { user: user, review: review } }
+        { $set: updatedProps }
       );
 
       return updateResponse;
