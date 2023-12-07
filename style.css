@@ -12,9 +12,6 @@ body {
 body {
   background-color: #131720;
   font-family: sans-serif;
-}
-
-h3 {
   color: white;
 }
 
@@ -54,7 +51,7 @@ form {
 
 input {
   width: 100%;
-  all: unset;
+  background-color: black;
   font-size: 1.2rem;
   color: #fff;
   height: 100%;
@@ -85,10 +82,20 @@ img {
 
 .card {
   padding: 1rem;
+  margin: 1rem;
+  border: 2px solid white;
+  border-radius: 15px;
   text-align: center;
   background-color: #151f30;
 }
 
+.card > p {
+  margin: 0.2rem;
+}
+
+.card > p > a {
+  margin: 0.4rem;
+}
 @media (min-width: 599px) {
   main {
     grid-template-columns: repeat(2, 1fr);
