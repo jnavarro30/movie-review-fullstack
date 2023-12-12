@@ -8,8 +8,27 @@ const title = document.getElementById("title");
 
 title.innerText = movieTitle;
 
+const div_new = document.createElement("div");
+div_new.innerHTML = `
+  <div class="row">
+    <div class="column">
+      <div class="card">
+          New Review
+          <p><strong>Review: </strong>
+            <input type="text" id="new_review" value="">
+          </p>
+          <p><strong>User: </strong>
+            <input type="text" id="new_user" value="">
+          </p>
+          <p><a href="#" onclick="saveReview('new_review', 'new_user')">💾</a>
+          </p>
+      </div>
+    </div>
+  </div>
+`;
+main.appendChild(div_new);
+
 const editReview = (id, review, user) => {
-  console.log("edit review running");
   const element = document.getElementById(id);
   const reviewInputId = "review" + id;
   const userInputId = "user" + id;
@@ -27,40 +46,36 @@ const editReview = (id, review, user) => {
   `;
 };
 
-function saveReview(reviewInputId, userInputId, id = "") {
+const saveReview = async (reviewInputId, userInputId, id = "") => {
   const review = document.getElementById(reviewInputId).value;
   const user = document.getElementById(userInputId).value;
 
   if (id) {
-    fetch(APILINK + id, {
+    const response = await fetch(APILINK + id, {
       method: "PUT",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ user: user, review: review }),
-    })
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-        location.reload();
-      });
+    });
+    const data = await response.json();
+    console.log(data);
+    location.reload();
   } else {
-    fetch(APILINK + "new", {
+    const response = await fetch(APILINK + "new", {
       method: "POST",
       headers: {
         Accept: "application/json, text/plain, */*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ user: user, review: review, movieId: movieId }),
-    })
-      .then(res => res.json())
-      .then(res => {
-        console.log(res);
-        location.reload();
-      });
+    });
+    const data = await response.json();
+    console.log(data);
+    location.reload();
   }
-}
+};
 
 function deleteReview(id) {
   fetch(APILINK + id, {
